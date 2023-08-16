@@ -53,6 +53,13 @@ io.on("connection", (socket) => {
         else
             console.log("Conexion a Truco")
     })
+
+    socket.on('nuevoProducto', (prod) => {
+        console.log(prod)
+        //Deberia agregarse al txt o json mediante addProduct
+
+        socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
+    })
 })
 
 //Routes
@@ -72,12 +79,17 @@ app.get('/static', (req, res) => {
     ]
 
     //Indicar que plantilla voy a utilizar
-    res.render("users", {
+    /*res.render("users", {
         titulo: "Users",
         usuario: user,
         rutaCSS: "users.css",
         isTutor: user.cargo == "Tutor",
         cursos: cursos
+    })*/
+
+    res.render("realTimeProducts", {
+        rutaCSS: "realTimeProducts",
+        rutaJS: "realTimeProducts"
     })
 
 })
