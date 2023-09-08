@@ -1,19 +1,24 @@
+import 'dotenv/config' //Permite utilizar variables de entorno
 import express from 'express'
 import productRouter from './routes/products.routes.js'
 import cartRouter from './routes/cart.routes.js'
 import mongoose from 'mongoose'
 import { orderModel } from './models/order.models.js'
 import { userModel } from './models/users.models.js'
-
+import cartModel from './models/carts.models.js'
 const app = express()
 const PORT = 4000
 
-mongoose.connect('URL MONGO')
+mongoose.connect(process.env.MONGO_URL)
     .then(async () => {
         console.log("BDD conectada")
-        const resultados = await orderModel.paginate({ status: 'medium' }, { limit: 1, page: 3, sort: 'desc' })
+
+        const resultado = await cartModel.findOne({ _id: "64f7be67ee3d47232d0cd8b5" })
+        console.log(JSON.stringify(resultado))
+        /*const resultados = await orderModel.paginate({ status: 'medium' }, { limit: 1, page: 3, sort: 'desc' })
         console.log(resultados)
-        /*await orderModel.create([
+
+        await orderModel.create([
         { name: 'Napolitana', size: 'small', price: '2000', quantity: '5' },
         { name: '4 quesos', size: 'medium', price: '3000', quantity: '3' },
         { name: 'Pepperoni', size: 'large', price: '4000', quantity: '2' },
