@@ -68,10 +68,9 @@ const initializePassport = () => {
         try {
             console.log(accessToken)
             console.log(refreshToken)
+            console.log(process.env.CALLBACK_URL)
             const user = await userModel.findOne({ email: profile._json.email })
-            if (user) {
-                done(null, false)
-            } else {
+            if (!user) {
                 const userCreated = await userModel.create({
                     first_name: profile._json.name,
                     last_name: ' ',
@@ -80,6 +79,9 @@ const initializePassport = () => {
                     password: 'password'
                 })
                 done(null, userCreated)
+
+            } else {
+                done(null, user)
             }
 
         } catch (error) {
@@ -94,7 +96,7 @@ const initializePassport = () => {
     })
 
     //Eliminar la session del usr
-    passport.deserializeUser(async (id, donde) => {
+    passport.deserializeUser(async (id, done) => {
         const user = await userModel.findById(id)
         done(null, user)
     })

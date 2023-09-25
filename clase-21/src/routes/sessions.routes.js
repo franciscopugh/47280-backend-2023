@@ -56,9 +56,10 @@ sessionRouter.get('/githubSession', passport.authenticate('github'), async (req,
 })
 
 sessionRouter.get('/logout', (req, res) => {
-    if (req.session.login) {
+    if (req.session) {
         req.session.destroy()
     }
+    console.log(req.session)
     res.status(200).send({ resultado: 'Login eliminado' })
 })
 
