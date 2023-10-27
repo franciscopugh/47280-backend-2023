@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import local from 'passport-local' //Estrategia
 import passport from 'passport' //Manejador de las estrategias
 import GithubStrategy from 'passport-github2'
@@ -14,11 +15,8 @@ const ExtractJWT = jwt.ExtractJwt //Extractor de los headers de la consulta
 const initializePassport = () => {
 
     const cookieExtractor = req => {
-        console.log(req.cookies)
-        //{} no hay cookies != no exista mi cookie
-        //Si existen cookies, consulte por mi cookie y sino asigno {}
-        const token = req.cookies ? req.cookies.jwtToken : {}
-        console.log(token)
+        const token = req.headers.authorization ? req.headers.authorization : {}
+        console.log("Token", token)
         return token
     }
 
@@ -27,7 +25,7 @@ const initializePassport = () => {
         secretOrKey: process.env.JWT_SECRET
     }, async (jwt_payload, done) => {
         try {
-            console.log(jwt_payload)
+            console.log(process.env.JWT_SECRET)
             return done(null, jwt_payload) //Retorno el contenido del token
         } catch (error) {
             return done(error)

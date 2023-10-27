@@ -56,7 +56,7 @@ export const postProduct = async (req, res) => {
         if (error.code == 11000) {
             return res.status(400).send({ error: `Llave duplicada` })
         } else {
-            return res.status(500).send({ error: `Error en consultar producto ${error}` })
+            return res.status(500).send({ error: `Error en crear producto ${error}` })
         }
 
     }

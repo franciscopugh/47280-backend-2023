@@ -20,22 +20,25 @@ export const NewProduct = () => {
                 break
             }
         }
-        console.log(token)
+        console.log(data)
         const response = await fetch('http://localhost:4000/api/product', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `${token}`
             },
             body: JSON.stringify(data)
 
         })
 
-        if (response.status == 200) {
+        if (response.status == 200 || response.status == 201) {
             const datos = await response.json()
             console.log(datos)
             navigate('/products')
         } else {
+            console.log(response)
+            const datos = await response.json()
+            console.log(datos)
             console.log("Error en crear producto")
         }
     }
@@ -55,6 +58,10 @@ export const NewProduct = () => {
                 <div className="mb-3">
                     <label htmlFor="category">Ingrese la categoria: </label>
                     <input type="text" name='category' />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="code">Ingrese el codigo: </label>
+                    <input type="text" name='code' />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="price">Ingrese el precio: </label>
